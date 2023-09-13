@@ -22,40 +22,48 @@ public class Programa {
 			boss.setVida(50);
 			boss.setAtaque(8);
 		} else if (dificuldade == 2) {
-			boss.setVida(100);
+			boss.setVida(80);
 			boss.setAtaque(12);
 		} else if (dificuldade == 3) {
-			boss.setVida(150);
-			boss.setAtaque(15);
+			boss.setVida(120);
+			boss.setAtaque(13);
 		}
 		
-		while (player.vivo() && boss.vivo()) {
+		while (player.vivo() && boss.vivo() && fugir == false) {
 			System.out.println("Escolha uma ação:\n1. Ataque básico\n2. Tentar fugir\n");
 			int escolha = sc.nextInt();
 			
-			if (escolha == 1) {
-				player.atacar(boss);
-                if (boss.vivo()) {
-                    boss.atacar(player);
-                }
-			} else if (escolha == 2) {
-				fugir = player.tentarFugir();
-				
-				if (fugir) {
-					System.out.println("Você fugiu.");
+			switch (escolha) {
+				case 1:
+					player.atacar(boss);
+					
+	                if (boss.vivo()) {
+	                    boss.atacar(player);
+	                }
+	                break;
+	                
+				case 2:
+					fugir = player.tentarFugir();
+					
+					if (fugir) {
+						System.out.println("Você fugiu.");
+					} else {
+						System.out.println("Você tentou fugir e falhou.");
+						boss.atacar(player);
+					}
 					break;
-				} else {
-					System.out.println("Você tentou fugir e falhou.");
-					boss.atacar(player);
-				}
+				default:
+					System.out.println("Erro, tente novamente.");
 			}
 			
 		}
 		
+		System.out.println();
+		
 		if (player.vivo() && fugir == false) {
-			System.out.println("Mensagem de vitória");
+			System.out.println("Você venceu. Parabéns!");
 		} else if (fugir == false){
-			System.out.println("Mensagem de derrota");
+			System.out.println("Você perdeu. Tente outra vez.");
 		}
 		
 		sc.close();
